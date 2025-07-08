@@ -15,8 +15,10 @@ namespace WpfApp1
         public Window1()
         {
             InitializeComponent();
+            CommandSelectedItemChanged = new Command(selected_item_changed);
 
             Country firstCountry = new Country() { Name = "Россия" };
+            // firstCountry.AddCountryCommand = 
 
             Region first_region = new Region() { Name = "Московская область" };
             Region second_region = new Region() { Name = "Калининградская область" };
@@ -63,20 +65,40 @@ namespace WpfApp1
         }
         #endregion
 
+        public ICommand CommandSelectedItemChanged { get; private set; }
+
+        private void selected_item_changed(object v)
+        {
+            switch (v)
+            {
+                case Country item:
+                    MessageBox.Show($"selected_item_changed: {item.Name}");
+                    break;
+                case Region item:
+                    MessageBox.Show($"selected_item_changed: {item.Name}");
+                    break;
+                case City item:
+                    MessageBox.Show($"selected_item_changed: {item.Name}");
+                    break;
+                default:
+                    MessageBox.Show("selected_item_changed: unknown type!");
+                    break;
+            }
+        }
 
         public ObservableCollection<Country> MyTree
         {
             get { return _MyTree; }
         }
 
-        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var item = sender as TreeViewItem;
-            if (item != null)
-            {
-                item.IsSelected = true;
-            }
-        }
+        //private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    var item = sender as TreeViewItem;
+        //    if (item != null)
+        //    {
+        //        item.IsSelected = true;
+        //    }
+        //}
 
         private void countryContextMenu_Add_Click(object sender, RoutedEventArgs e)
         {
@@ -136,7 +158,7 @@ namespace WpfApp1
         }
     }
 
-    public class Country :  INotifyPropertyChanged
+    public class Country : INotifyPropertyChanged
     {
         public string Name { get; set; }
 

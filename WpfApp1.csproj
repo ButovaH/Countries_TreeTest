@@ -56,7 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="commands.cs" />
+    <Compile Include="commands\commands.cs" />
+    <Compile Include="commands\EventBinding.cs" />
+    <Compile Include="commands\EventBindingCollection.cs" />
+    <Compile Include="commands\EventBindings.cs" />
     <Compile Include="tree_view_item_right_click_behavior.cs" />
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
