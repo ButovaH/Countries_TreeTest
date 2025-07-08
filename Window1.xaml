@@ -25,12 +25,14 @@
             <MenuItem Header="Удалить город" Click="cityContextMenu_Delete_Click" />
         </ContextMenu>
         <Style TargetType="{x:Type TreeViewItem}" x:Key="country">
+            <!--<EventSetter Event="TreeViewItem.MouseLeftButtonUp" Handler="Country_Left_Click"/> -->
             <Setter Property="local:TreeViewItemRightClickBehavior.EnableRightClickSelect" Value="True"/>
             <!--<EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />-->
             <Setter Property="ContextMenu" Value="{StaticResource countryContextMenu}"/>
         </Style>
         <Style TargetType="{x:Type TreeViewItem}" x:Key="region">
+            <EventSetter Event="TreeViewItem.MouseLeftButtonUp" Handler="Region_Left_Click"/>
             <Setter Property="local:TreeViewItemRightClickBehavior.EnableRightClickSelect" Value="True"/>
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
             <Setter Property="ContextMenu" Value="{StaticResource regionContextMenu}"/>
@@ -63,7 +65,8 @@
     <Grid>
         <TreeView Name="trView" ItemTemplate="{StaticResource countryTemplate}"
                   ItemContainerStyle="{StaticResource country}"
-                  ItemsSource="{Binding MyTree}">
+                  ItemsSource="{Binding MyTree}"
+                  SelectedItemChanged="MyTreeView_SelectedItemChanged">
         </TreeView>
     </Grid>
 </Window>

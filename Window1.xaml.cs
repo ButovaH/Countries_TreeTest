@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -92,7 +93,18 @@ namespace WpfApp1
                 MessageBox.Show("Не получилось добавить регион, т.к. isSelected = false..");
             }
         }
+        private void MyTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (trView.SelectedItem is Country selectedNode)
+            {
+                selectedNode.AddCountryLeftClickCommand.Execute(selectedNode);
+            }
+        }
 
+        private void Region_Left_Click(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Щелкнули левой кнопкой по региону");
+        }
         private void regionContextMenu_Add_Click(object sender, RoutedEventArgs e)
         {
             object tmp = trView.SelectedItem;
@@ -134,6 +146,11 @@ namespace WpfApp1
                 MessageBox.Show("Не получилось удалить город, т.к. isSelected = false..");
             }
         }
+
+        private void trView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+
+        }
     }
 
     public class Country :  INotifyPropertyChanged
@@ -146,12 +163,23 @@ namespace WpfApp1
         {
             Childs = new ObservableCollection<Region>();
             AddCountryCommand = new Command(country_add);
+            AddCountryLeftClickCommand = new Command(country_left_click);
         }
         public ICommand AddCountryCommand { get; private set; }
+        public ICommand AddCountryLeftClickCommand { get; private set; }
 
         private void country_add(object v)
         {
             MessageBox.Show("Типа добавили регион");
+        }
+
+        private void country_left_click(object v)
+        {
+            if (v is Country selectedNode)
+            {
+                // Выполните действия с выбранным узлом дерева
+                MessageBox.Show($"Щелкнули левой кнопкой по стране {selectedNode.Name}");
+            }
         }
 
         bool _isSelected;
