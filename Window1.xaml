@@ -32,7 +32,6 @@
             <Setter Property="ContextMenu" Value="{StaticResource countryContextMenu}"/>
         </Style>
         <Style TargetType="{x:Type TreeViewItem}" x:Key="region">
-            <EventSetter Event="TreeViewItem.MouseLeftButtonUp" Handler="Region_Left_Click"/>
             <Setter Property="local:TreeViewItemRightClickBehavior.EnableRightClickSelect" Value="True"/>
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
             <Setter Property="ContextMenu" Value="{StaticResource regionContextMenu}"/>

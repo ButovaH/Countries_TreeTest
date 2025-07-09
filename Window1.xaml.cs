@@ -43,28 +43,6 @@ namespace WpfApp1
             };
         }
 
-        #region IsSelected
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register(
-                name: "IsSelected",
-                propertyType: typeof(bool),
-                ownerType: typeof(Window1),
-                typeMetadata: new FrameworkPropertyMetadata(
-                  defaultValue: false,
-                  flags: FrameworkPropertyMetadataOptions.AffectsRender,
-                  propertyChangedCallback: new PropertyChangedCallback(on_changed_is_selected)));
-        public bool IsSelected
-        {
-            set { SetValue(IsSelectedProperty, value); }
-            get { return (bool)GetValue(IsSelectedProperty); }
-        }
-        private static void on_changed_is_selected(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ;
-        }
-        #endregion
-
-
         public ObservableCollection<Country> MyTree
         {
             get { return _MyTree; }
@@ -95,16 +73,34 @@ namespace WpfApp1
         }
         private void MyTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (trView.SelectedItem is Country selectedNode)
-            {
-                selectedNode.AddCountryLeftClickCommand.Execute(selectedNode);
+            switch(trView.SelectedItem) {
+                case Country selectedNode:
+                {
+                    selectedNode.AddCountryLeftClickCommand.Execute(selectedNode);
+                    break;
+                }
+                case Region selectedNode:
+                {
+                    selectedNode.AddRegionLeftClickCommand.Execute(selectedNode);
+                    break;
+                }
+                case City selectedNode:
+                {
+                    selectedNode.AddCityLeftClickCommand.Execute(selectedNode);
+                    break;
+                }
+                default:
+                {
+                    MessageBox.Show("Нажали куда-то не туда");
+                    break;
+                }
             }
+            //if (trView.SelectedItem is Country selectedNode)
+            //{
+            //    selectedNode.AddCountryLeftClickCommand.Execute(selectedNode);
+            //}
         }
 
-        private void Region_Left_Click(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("Щелкнули левой кнопкой по региону");
-        }
         private void regionContextMenu_Add_Click(object sender, RoutedEventArgs e)
         {
             object tmp = trView.SelectedItem;
@@ -145,11 +141,6 @@ namespace WpfApp1
             {
                 MessageBox.Show("Не получилось удалить город, т.к. isSelected = false..");
             }
-        }
-
-        private void trView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-
         }
     }
 
@@ -213,28 +204,19 @@ namespace WpfApp1
         public Region()
         {
             Childs = new ObservableCollection<City>();
+            AddRegionLeftClickCommand = new Command(region_left_click);
+        }
+        public ICommand AddRegionLeftClickCommand { get; private set; }
+
+        private void region_left_click(object v)
+        {
+            if (v is Region selectedNode)
+            {
+                // Выполните действия с выбранным узлом дерева
+                MessageBox.Show($"Щелкнули левой кнопкой по региону \"{selectedNode.Name}\"");
+            }
         }
 
-        //#region IsSelected
-        //public static readonly DependencyProperty IsSelectedProperty =
-        //    DependencyProperty.Register(
-        //        name: "IsSelected",
-        //        propertyType: typeof(bool),
-        //        ownerType: typeof(Region),
-        //        typeMetadata: new FrameworkPropertyMetadata(
-        //          defaultValue: false,
-        //          flags: FrameworkPropertyMetadataOptions.AffectsRender,
-        //          propertyChangedCallback: new PropertyChangedCallback(on_is_selected_changed)));
-        //public bool IsSelected
-        //{
-        //    set { SetValue(IsSelectedProperty, value); }
-        //    get { return (bool)GetValue(IsSelectedProperty); }
-        //}
-        //private static void on_is_selected_changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-
-        //}
-        //#endregion
         bool _isSelected;
         public bool IsSelected
         {
@@ -260,6 +242,21 @@ namespace WpfApp1
     public class City : INotifyPropertyChanged
     {
         public string Name { get; set; }
+
+        public City()
+        {
+            AddCityLeftClickCommand = new Command(city_left_click);
+        }
+        public ICommand AddCityLeftClickCommand { get; private set; }
+
+        private void city_left_click(object v)
+        {
+            if (v is City selectedNode)
+            {
+                // Выполните действия с выбранным узлом дерева
+                MessageBox.Show($"Щелкнули левой кнопкой по городу \"{selectedNode.Name}\"");
+            }
+        }
 
         bool _isSelected;
         public bool IsSelected
