@@ -183,27 +183,6 @@ namespace WpfApp1
         }
 
         bool _isSelected;
-        #region IsSelected
-        //public static readonly DependencyProperty IsSelectedProperty =
-        //    DependencyProperty.Register(
-        //        name: "IsSelected",
-        //        propertyType: typeof(bool),
-        //        ownerType: typeof(Region),
-        //        typeMetadata: new FrameworkPropertyMetadata(
-        //          defaultValue: false,
-        //          flags: FrameworkPropertyMetadataOptions.AffectsRender,
-        //          propertyChangedCallback: new PropertyChangedCallback(on_is_selected_changed)));
-        //public bool IsSelected
-        //{
-        //    set { SetValue(IsSelectedProperty, value); }
-        //    get { return (bool)GetValue(IsSelectedProperty); }
-        //}
-        //private static void on_is_selected_changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-
-        //}
-        #endregion
-
         public bool IsSelected
         {
             get { return _isSelected; }
